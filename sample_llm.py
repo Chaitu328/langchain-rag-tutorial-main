@@ -65,8 +65,8 @@ if not uploaded_file:
     st.info("Please upload to continue.")
     st.stop()
 
-# Configure retriever
-retriever, vectorstore = configure_retriever([uploaded_file])  # Retrieve result and vectorstore
+# Configure retriever and vectorstore
+retriever, vectorstore = configure_retriever([uploaded_file])  
 
 # Perform action on button click
 if button and retriever is not None:
