@@ -1,8 +1,10 @@
 create python environment
 
-add python terminal in VScode
+Add python Interpreter in VScode
 
 Install dependencies
+
+create new file .env, and add OPENAI_API_KEY & SERPAPI_API_KEY
 
 done UI using streamlit
 
