@@ -3,11 +3,14 @@ import os
 from langchain.document_loaders import TextLoader, PDFPlumberLoader, UnstructuredXMLLoader, Docx2txtLoader
 from langchain.chains import RetrievalQA
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.runnables import RunnablePassthrough
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_community.document_loaders import UnstructuredExcelLoader
 from langchain_chroma import Chroma
+from langchain.agents import AgentType
+from langchain.agents import load_tools 
+from langchain.agents import initialize_agent
+from langchain_openai import ChatOpenAI
+from langchain.llms import OpenAI
 from langchain import hub
 import streamlit as st
 from dotenv import load_dotenv
@@ -102,10 +105,29 @@ if not uploaded_file:
     st.info("Please upload a file to continue.")
     st.stop()
 
+# serapi
+def get_output(input_field):
+    load_dotenv()
+
+    serpapi_api_key2 = os.environ["serpapi_api_key"]
+    llm = OpenAI(openai_api_key=os.getenv('OPENAI_API_KEY'))
+
+    tool = load_tools(["serpapi"], serpapi_api_key=serpapi_api_key2, llm=llm)
+    agent = initialize_agent(tool, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True)
+    result = agent.invoke(input_field)
+
+    return result["output"]
+
 # Perform action on button click
 if button:
     result, vectorstore = configure_retriever([uploaded_file], input_field)
-    st.write(result)
-    # Cleanup vectorstore
-    vectorstore.delete_collection()
+    if any(substring in result.lower() for substring in ["i don't know", "context is not known", "values are not known", "no, ", "did not meet in the provided context."]):
+        # Use the Zero-shot react model to get the output
+    # If the result indicates that the context is unknown, use the Zero-shot react model
+       result = get_output(input_field)
+
+st.write(result)
+# Cleanup vectorstore
+vectorstore.delete_collection()
+
 
