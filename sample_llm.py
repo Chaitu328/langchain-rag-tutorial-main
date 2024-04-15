@@ -73,3 +73,4 @@ if button and retriever is not None:
     st.write(retriever)
     # Cleanup vectorstore
     vectorstore.delete_collection()
+
