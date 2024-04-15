@@ -1,8 +1,15 @@
 create python environment
+python3 -m venv .venv
 
 Add python Interpreter in VScode
+click view ->command palette-> Add interpreter
 
 Install dependencies
+pip install openai
+pip install --upgrade --quiet  langchain langchain-community langchainhub langchain-openai
+pip install -qU langchain-openai
+pip install --upgrade --quiet  docx2txt
+pip install streamlit
 
 create new file .env, and add OPENAI_API_KEY & SERPAPI_API_KEY
 
