@@ -6,7 +6,7 @@ Install dependencies
 
 create new file .env, and add OPENAI_API_KEY & SERPAPI_API_KEY
 
-done UI using streamlit
+run below files using streamlit run <below file names>
 
 sample_llm.py--> only for .txt
 
