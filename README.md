@@ -1,6 +1,7 @@
 create python environment
 
 python3 -m venv .venv
+***
 
 
 Add python Interpreter in VScode
